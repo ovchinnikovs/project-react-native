@@ -56,7 +56,7 @@ export default class App extends PureComponent<any, IState> {
         />
         <View style={styles.footerBox}>
           <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
-            <Text style={{ fontSize: 14 }}> SNAP </Text>
+            <Text style={styles.captureText}> SNAP </Text>
           </TouchableOpacity>
         </View>
 
@@ -82,6 +82,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  footerBox: {
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
   capture: {
     flex: 0,
     backgroundColor: '#fff',
@@ -91,10 +97,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: 20,
   },
-  footerBox: {flex: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: '#000',
+  captureText: {
+    fontSize: 14,
   },
   photos: {
     flexDirection: 'row',
