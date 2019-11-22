@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+
 
 interface IState {
   uriArr: string[]
 }
 
-export default class App extends PureComponent<any, IState> {
+export class Camera extends PureComponent<any, IState> {
   constructor(props: any) {
     super(props);
 
