@@ -4,7 +4,6 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { NavigationInjectedProps } from 'react-navigation';
 import Geolocation from '@react-native-community/geolocation';
 
-
 interface ICoord {
   latitude: number;
   longitude: number;
