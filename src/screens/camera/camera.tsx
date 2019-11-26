@@ -1,78 +1,68 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 interface IState {
-  uriArr: string[]
+  uriArr: string[];
 }
 
-export class Camera extends React.Component<any, IState> {
-  constructor(props: any) {
-    super(props);
+export const Camera = (props: any) => {
+  const [ images, setImages ] = useState<string[]>([]);
 
-    this.state = { 
-      uriArr: [],
-    };
-  }
+  const camera = useRef<RNCamera>(null);
 
-  camera: RNCamera | null = null;
-
-  takePicture = async() => {
-    if (this.camera) {
+  const takePicture = async() => {
+    if (camera.current) {
       const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-
-      this.setState({ uriArr: [data.uri, ...this.state.uriArr] })
-      }
+      const data = await camera.current.takePictureAsync(options);
+      setImages([data.uri, ...images]);
+    }
   };
  
-  render() {
-
-    return (
-      <View style={styles.container}>
-        <RNCamera
-          ref={(ref) => {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.auto}
-          autoFocus={RNCamera.Constants.AutoFocus.on}
-          androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'We need your permission to use your camera',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-          androidRecordAudioPermissionOptions={{
-            title: 'Permission to use audio recording',
-            message: 'We need your permission to use your audio',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-          onGoogleVisionBarcodesDetected={({ barcodes }) => {
-            console.log(barcodes);
-          }}
-        />
-        <View style={styles.footerBox}>
-          <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
-            <Text style={styles.captureText}> SNAP </Text>
-          </TouchableOpacity>
-        </View>
-        <ScrollView 
-          contentInsetAdjustmentBehavior="automatic"
-          horizontal={true}
-          style={styles.photos}>
-            { 
-              this.state.uriArr.map((item) => ( 
-                <Image key={item} style={styles.photo} source={{uri: item}} /> 
-              ))
-            }
-        </ScrollView>
+  return (
+    <View style={styles.container}>
+      <RNCamera
+        ref={camera}
+        style={styles.preview}
+        type={RNCamera.Constants.Type.back}
+        flashMode={RNCamera.Constants.FlashMode.auto}
+        autoFocus={RNCamera.Constants.AutoFocus.on}
+        androidCameraPermissionOptions={{
+          title: 'Permission to use camera',
+          message: 'We need your permission to use your camera',
+          buttonPositive: 'Ok',
+          buttonNegative: 'Cancel',
+        }}
+        androidRecordAudioPermissionOptions={{
+          title: 'Permission to use audio recording',
+          message: 'We need your permission to use your audio',
+          buttonPositive: 'Ok',
+          buttonNegative: 'Cancel',
+        }}
+        onGoogleVisionBarcodesDetected={({ barcodes }) => {
+          console.log(barcodes);
+        }}
+      />
+      <View style={styles.footerBox}>
+        <TouchableOpacity onPress={takePicture} style={styles.capture}>
+          <Text style={styles.captureText}> SNAP </Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
-};
+      <ScrollView 
+        contentInsetAdjustmentBehavior="automatic"
+        horizontal={true}
+        style={styles.photos}
+      >
+        { 
+          images.map((image) => ( 
+            <Image key={image} style={styles.photo} source={{uri: image}} /> 
+          ))
+        }
+      </ScrollView>
+    </View>
+  );
+}
+
 
 const styles = StyleSheet.create({
   container: {

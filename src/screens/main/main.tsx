@@ -10,8 +10,8 @@ import { Map } from '../map/map';
 export const App = createAppContainer(
   createBottomTabNavigator(
     {
-      ['Camera']: Camera,
-      ['Map']: Map,
+      Camera,
+      Map,
     },
   )
 );
