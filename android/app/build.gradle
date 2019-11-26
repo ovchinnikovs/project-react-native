@@ -130,7 +130,7 @@ android {
     defaultConfig {
         applicationId "com.projectcamera"
         minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         missingDimensionStrategy 'react-native-camera', 'general'
@@ -185,6 +185,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+    compile project(':RNPermissionsModule')
 
 
     if (enableHermes) {

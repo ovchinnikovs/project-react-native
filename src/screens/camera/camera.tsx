@@ -1,13 +1,12 @@
-import React, { PureComponent } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-
 
 interface IState {
   uriArr: string[]
 }
 
-export class Camera extends PureComponent<any, IState> {
+export class Camera extends React.Component<any, IState> {
   constructor(props: any) {
     super(props);
 
@@ -32,7 +31,7 @@ export class Camera extends PureComponent<any, IState> {
     return (
       <View style={styles.container}>
         <RNCamera
-          ref={ref => {
+          ref={(ref) => {
             this.camera = ref;
           }}
           style={styles.preview}
@@ -60,14 +59,16 @@ export class Camera extends PureComponent<any, IState> {
             <Text style={styles.captureText}> SNAP </Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.photos}>
-          { 
-            this.state.uriArr.map((item) => ( 
-              <Image key={item} style={styles.photo} source={{uri: item}} /> 
-            ))
-          }
-        </View>
+        <ScrollView 
+          contentInsetAdjustmentBehavior="automatic"
+          horizontal={true}
+          style={styles.photos}>
+            { 
+              this.state.uriArr.map((item) => ( 
+                <Image key={item} style={styles.photo} source={{uri: item}} /> 
+              ))
+            }
+        </ScrollView>
       </View>
     );
   }
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   preview: {
-    flex: 1,
+    flex: 5,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
@@ -96,14 +97,15 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 20,
     alignSelf: 'center',
-    margin: 20,
+    margin: 10,
   },
   captureText: {
     fontSize: 14,
   },
   photos: {
+    flex: 1,
     flexDirection: 'row',
-    height: 200,
+    backgroundColor: '#fff',
   },
   photo: {
     marginTop: 10,
